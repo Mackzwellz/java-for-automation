@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FindTheMinimum {
 
-    private static int findMinOf2(int a, int b) {
+    private static int findMinOf(int a, int b) {
         int lowestIntOf2;
         lowestIntOf2 = (a < b) ? a : b;
         System.out.print("Lowest of " + a + " and " + b + " is " + lowestIntOf2
@@ -17,20 +17,20 @@ public class FindTheMinimum {
         return lowestIntOf2;
     }
 
-    private static int findMinOf3(int a, int b, int c) {
+    private static int findMinOf(int a, int b, int c) {
         int lowestIntOf2;
         int lowestIntOf3;
-        lowestIntOf2 = findMinOf2(a, b);
+        lowestIntOf2 = findMinOf(a, b);
         lowestIntOf3 = (c < lowestIntOf2) ? c : lowestIntOf2;
         System.out.print("Lowest of " + a + ", " + b + " and " + c + " is "
                 + lowestIntOf3 + ".\n");
         return lowestIntOf3;
     }
 
-    private static int findMinOf4(int a, int b, int c, int d) {
+    private static int findMinOf(int a, int b, int c, int d) {
         int lowestIntOf3;
         int lowestIntOf4;
-        lowestIntOf3 = findMinOf3(a, b, c);
+        lowestIntOf3 = findMinOf(a, b, c);
         lowestIntOf4 = (d < lowestIntOf3) ? d : lowestIntOf3;
         System.out.print("Lowest of " + a + ", " + b + ", " + c + " and " + d
                 + " is " + lowestIntOf4 + ".\n");
@@ -59,14 +59,14 @@ public class FindTheMinimum {
         int result = 0;
         switch (parsedStringArray.length) {
             case 2:
-                result = findMinOf2(parsedStringArray[0], parsedStringArray[1]);
+                result = findMinOf(parsedStringArray[0], parsedStringArray[1]);
                 break;
             case 3:
-                result = findMinOf3(parsedStringArray[0], parsedStringArray[1],
+                result = findMinOf(parsedStringArray[0], parsedStringArray[1],
                         parsedStringArray[2]);
                 break;
             case 4:
-                result = findMinOf4(parsedStringArray[0], parsedStringArray[1],
+                result = findMinOf(parsedStringArray[0], parsedStringArray[1],
                         parsedStringArray[2], parsedStringArray[3]);
                 break;
             default:
