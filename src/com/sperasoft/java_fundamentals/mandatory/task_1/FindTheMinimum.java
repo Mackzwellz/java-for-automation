@@ -11,7 +11,7 @@ public class FindTheMinimum {
 
     private static int findMinOf(int a, int b) {
         int lowestIntOf2;
-        lowestIntOf2 = (a < b) ? a : b;
+        lowestIntOf2 = Math.min(a, b);
         System.out.print("Lowest of " + a + " and " + b + " is " + lowestIntOf2
                 + ".\n");
         return lowestIntOf2;
@@ -21,7 +21,7 @@ public class FindTheMinimum {
         int lowestIntOf2;
         int lowestIntOf3;
         lowestIntOf2 = findMinOf(a, b);
-        lowestIntOf3 = (c < lowestIntOf2) ? c : lowestIntOf2;
+        lowestIntOf3 = Math.min(c, lowestIntOf2);
         System.out.print("Lowest of " + a + ", " + b + " and " + c + " is "
                 + lowestIntOf3 + ".\n");
         return lowestIntOf3;
@@ -31,7 +31,7 @@ public class FindTheMinimum {
         int lowestIntOf3;
         int lowestIntOf4;
         lowestIntOf3 = findMinOf(a, b, c);
-        lowestIntOf4 = (d < lowestIntOf3) ? d : lowestIntOf3;
+        lowestIntOf4 = Math.min(d, lowestIntOf3);
         System.out.print("Lowest of " + a + ", " + b + ", " + c + " and " + d
                 + " is " + lowestIntOf4 + ".\n");
         return lowestIntOf4;
