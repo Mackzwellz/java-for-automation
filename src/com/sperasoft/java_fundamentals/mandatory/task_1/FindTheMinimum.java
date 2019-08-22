@@ -1,5 +1,12 @@
 package com.sperasoft.java_fundamentals.mandatory.task_1;
 
+// Compile and use:
+// javac Practice1Minimum.java
+// java Practice1Minimum
+// Input: 123 1234 12 1
+
+import java.util.Scanner;
+
 public class FindTheMinimum {
 
     private static int findMinOf2(int a, int b) {
@@ -30,30 +37,37 @@ public class FindTheMinimum {
         return lowestIntOf4;
     }
 
-    public static void main(String[] mainArgs) {
-        // Compile and use:
-        // javac Practice1Minimum.java
-        // java Practice1Minimum 123 1234 12 1
+    public static void main(String[] args) {
 
-        int x = mainArgs.length;
-        int[] parsedMain = new int[x];
-        int result = 0;
+        System.out.println("Input a sequence of 2, 3 or 4 numbers divided by whitespace:");
 
-        for (int i = 0; i < x; i++) {
-            parsedMain[i] = Integer.parseInt(mainArgs[i]);
+        // Reading input from user. Console works only whe using "Terminal" in IDEA
+        // https://stackoverflow.com/questions/5287538/how-can-i-get-the-user-input-in-java
+        // https://www.geeksforgeeks.org/ways-to-read-input-from-console-in-java/
+
+        Scanner scan = new Scanner(System.in);
+        String inputString = scan.nextLine();
+        scan.close();
+
+        String[] splitStringArray = inputString.split(" ");
+        int[] parsedStringArray = new int[splitStringArray.length];
+
+        for (int i = 0; i < splitStringArray.length; i++) {
+            parsedStringArray[i] = Integer.parseInt(splitStringArray[i]);
         }
 
-        switch (x) {
+        int result = 0;
+        switch (parsedStringArray.length) {
             case 2:
-                result = findMinOf2(parsedMain[0], parsedMain[1]);
+                result = findMinOf2(parsedStringArray[0], parsedStringArray[1]);
                 break;
             case 3:
-                result = findMinOf3(parsedMain[0], parsedMain[1],
-                        parsedMain[2]);
+                result = findMinOf3(parsedStringArray[0], parsedStringArray[1],
+                        parsedStringArray[2]);
                 break;
             case 4:
-                result = findMinOf4(parsedMain[0], parsedMain[1],
-                        parsedMain[2], parsedMain[3]);
+                result = findMinOf4(parsedStringArray[0], parsedStringArray[1],
+                        parsedStringArray[2], parsedStringArray[3]);
                 break;
             default:
                 System.out.print("Invalid argument count. Please input from 2 to 4 arguments.\n");
@@ -61,7 +75,7 @@ public class FindTheMinimum {
         }
 
         // Output the final result only if number of arguments is 2, 3 or 4
-        if ((x > 1) & (x < 5)) {
+        if ((parsedStringArray.length > 1) & (parsedStringArray.length < 5)) {
             System.out.print("Lowest of input numbers is " + result + ".\n");
         }
     }
