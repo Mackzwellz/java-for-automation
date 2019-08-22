@@ -8,27 +8,33 @@ input "10000" in console
 change CEILING and OFFSET constants if you need to have different values in array
 */
 
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class ArraySort {
 
     /*
-     * Constants to be used for RNG in fillArray() method
-     * https://stackoverflow.com/questions/66066/what-is-the-best-way-to-
-     * implement-constants-in-java
-     */
+    * Constants to be used for RNG in fillArray() method
+    * https://stackoverflow.com/questions/66066/what-is-the-best-way-to-implement-constants-in-java
+    */
     private static final int RNG_CEILING = 80000;
     private static final int RNG_OFFSET = 40000;
 
     public static void main(String[] mainArgs) {
 
+        // Reading input from user. Console works only whe using "Terminal" in IDEA
+        // https://stackoverflow.com/questions/5287538/how-can-i-get-the-user-input-in-java
         // https://www.geeksforgeeks.org/ways-to-read-input-from-console-in-java/
-        System.out.println("Input a number that will determine how many elements will be in array:");
-        int arraySize = Integer.parseInt(System.console().readLine());
+
+        System.out.println("Input a number that will determine how many elements will be in array (e.g. 10000):");
+        Scanner scan = new Scanner(System.in);
+
+        /* Parse inputs */
+        int arraySize = scan.nextInt();
+        scan.close();
 
         /* Create and fill an array based on input size */
         int[] arrayOfRandomInts = new int[arraySize];
@@ -73,6 +79,16 @@ public class ArraySort {
      * https://java2blog.com/sorting-algorithms-java/
      */
 
+
+    /* Time measurement:
+    * https://stackoverflow.com/questions/1712205/current-time-in-microseconds-in-java
+    * https://www.baeldung.com/java-measure-elapsed-time
+    * https://howtodoinjava.com/java/date-time/execution-elapsed-time/
+    * https://www.techiedelight.com/measure-elapsed-time-execution-time-java/
+    *
+    * Note: for some reason running this program from terminal produces finer results than using "Run" in IDE.
+    */
+
     private static void cloneAndBubbleOptSortArray(int[] arrayOfRandomInts) {
         int[] arraySorted = arrayOfRandomInts.clone();
 
@@ -106,11 +122,11 @@ public class ArraySort {
     }
 
     private static void cloneAndDefaultSortArray(int[] arrayOfRandomInts) {
-        int[] arraySortedDefault = arrayOfRandomInts.clone();
+        int[] arraySorted = arrayOfRandomInts.clone();
 
         Instant startInstant = Instant.now();
 
-        Arrays.sort(arraySortedDefault);
+        Arrays.sort(arraySorted);
 
         Instant finishInstant = Instant.now();
 
@@ -119,7 +135,7 @@ public class ArraySort {
                 + Duration.between(startInstant,
                 finishInstant).toNanos()
                 + " ns.\n");
-        //printArray( arraySortedDefault );
+        printArray( arraySorted );
     }
 
 
