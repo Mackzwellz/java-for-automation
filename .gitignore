@@ -1,0 +1,9 @@
+# Intellij IDEA config files
+.idea/*
+*.iml
+
+# Output dir
+target/*
+
+# Java classes
+*.class
