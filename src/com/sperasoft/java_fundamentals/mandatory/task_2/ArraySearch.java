@@ -4,39 +4,46 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class ArraySearch {
 
     /* Constants to be used for RNG in fillArray() method
     https://stackoverflow.com/questions/66066/what-is-the-best-way-to-implement-constants-in-java
      */
-    private static final int RNG_CEILING = 80000;
-    private static final int RNG_OFFSET = 40000;
+    private static final int RNG_CEILING = 800000;
+    private static final int RNG_OFFSET = 400000;
 
     /* Time measurement:
     https://stackoverflow.com/questions/1712205/current-time-in-microseconds-in-java
     https://www.baeldung.com/java-measure-elapsed-time
     https://howtodoinjava.com/java/date-time/execution-elapsed-time/
     https://www.techiedelight.com/measure-elapsed-time-execution-time-java/
+
+    Note: for some reason running this program from terminal produces finer results than using "Run" in IDE.
      */
 
     public static void main(String[] mainArgs) {
-        /* Compile and use:
-        javac Practice2ArraySearch.java
-        java Practice2ArraySearch 100000 39999 (~50/50 true/false, noticeable nanoseconds difference)
-        change CEILING and OFFSET above if you need to test different values
-        */
+
+        System.out.println("Input a sequence of 2 numbers, divided by whitespace (e.g. 1000000 399999).");
+        System.out.println("First determines array size, second is the number to search for in array:");
+
+        Scanner scan = new Scanner(System.in);
 
         /* Parse inputs */
-        int arraySize = Integer.parseInt(mainArgs[0]);
-        int numberToSearchFor = Integer.parseInt(mainArgs[1]);
+        int arraySize = scan.nextInt();
+        int numberToSearchFor = scan.nextInt();
+        scan.close();
+
+        System.out.println(arraySize + "," + numberToSearchFor);
+        //int numberToSearchFor = Integer.parseInt(mainArgs[1]);
 
         /* Create and fill an array based on input size */
         int[] arrayOfRandomInts = new int[arraySize];
         fillArray(arrayOfRandomInts);
 
         /* Output each element of created array to console */
-        // printArray( arrayOfRandomInts );
+       //printArray( arrayOfRandomInts );
 
         /* Run and benchmark: regular lookup */
         //long startNanoRegular = System.nanoTime();
@@ -51,12 +58,17 @@ public class ArraySearch {
         // System.out.println( "Regular value lookup result is \"" + resultRegular + "\", execution took " + Duration.between( start, Instant.now() ).toNanos() + " ns." );
 
         System.out.println("Lookup for int in array using \"for\" loop:\n result is \"" + resultRegular + "\", execution took " + Duration.between(startInstantRegular, finishInstantRegular).toNanos() + " ns.");
-
+/*
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+*/
         /* Clone initial array (to have clear results), then sort (to be able use binary search) */
-        long startNanoBinarySorting = System.nanoTime();
+        //long startNanoBinarySorting = System.nanoTime();
         Instant startInstantBinarySorting = Instant.now();
         int[] arrayOfRandomIntsSorted = cloneAndSortArray(arrayOfRandomInts);
-        //Arrays.sort( arrayOfRandomInts );
 
         /* Run and benchmark: binary lookup */
         //long startNanoBinaryLookup = System.nanoTime();
@@ -140,7 +152,6 @@ public class ArraySearch {
      */
 
     private static int[] cloneAndSortArray(int[] arrayToSort) {
-        //int[] arraySorted = Arrays.copyOf( arrayToSort, arrayToSort.length ); // clone is better
         int[] arraySorted = arrayToSort.clone();
         Arrays.sort(arraySorted);
         return arraySorted;
