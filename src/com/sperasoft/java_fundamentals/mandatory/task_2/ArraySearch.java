@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class ArraySearch {
 
-    private static final int RNG_CEILING = 80000;
-    private static final int RNG_OFFSET = 40000;
+    private static final int RNG_CEILING = 800000;
+    private static final int RNG_OFFSET = 400000;
 
     /* Note: for some reason, running this program from terminal produces finer results than using "Run" in IDE. */
 
@@ -87,7 +87,6 @@ public class ArraySearch {
             } else if (sortedArray[mid] > key) {
                 high = mid - 1;
             } else if (sortedArray[mid] == key) {
-                System.out.println("Number " + key + " is found.");
                 isNumberInArray = true;
                 break;
             }
