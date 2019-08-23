@@ -1,7 +1,5 @@
 package com.sperasoft.java_fundamentals.mandatory.task_2;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -19,40 +17,32 @@ public class ArraySearch {
         System.out.println("First determines array size, second is the number to search for in array:");
 
         Scanner scan = new Scanner(System.in);
-
-
         int arraySize = scan.nextInt();
         int numberToSearchFor = scan.nextInt();
         scan.close();
 
-        System.out.println(arraySize + "," + numberToSearchFor);
-
         int[] arrayOfRandomInts = new int[arraySize];
         fillArray(arrayOfRandomInts);
 
-
-        //long startNanoRegular = System.nanoTime();
-        Instant startInstantRegular = Instant.now();
+        /* Run and benchmark: regular lookup */
+        long startNanoRegular = System.nanoTime();
         boolean resultRegular = findNumberInArrayRegular(arrayOfRandomInts, numberToSearchFor);
-        Instant finishInstantRegular = Instant.now();
-        //long finishNanoRegular = System.nanoTime();
-
-        /* Output execution duration */
-        //System.out.println( "Regular value lookup result is \"" + resultRegular + "\", execution took " + ( finishNanoRegular - startNanoRegular ) + " ns." )
+        long finishNanoRegular = System.nanoTime();
+        double regularSortingTimeInSeconds = ( finishNanoRegular - startNanoRegular ) / 1e+9;
+        System.out.println("Lookup for int in array using \"for\" loop:\n result is \"" + resultRegular + "\", execution took " + String.format("%.3f", regularSortingTimeInSeconds) + " s.");
 
         /* Clone initial array (to have clear results), then sort (to be able use binary search) */
-        //long startNanoBinarySorting = System.nanoTime();
-        Instant startInstantBinarySorting = Instant.now();
+        long startNanoBinarySorting = System.nanoTime();
         int[] arrayOfRandomIntsSorted = cloneAndSortArray(arrayOfRandomInts);
 
         /* Run and benchmark: binary lookup */
-        //long startNanoBinaryLookup = System.nanoTime();
-        Instant startInstantBinaryLookup = Instant.now();
+        long startNanoBinaryLookup = System.nanoTime();
         boolean resultBinary = findNumberInArrayBinary(arrayOfRandomIntsSorted, numberToSearchFor);
-        Instant finishInstantBinaryLookup = Instant.now();
-        //long finishNanoBinaryLookup = System.nanoTime();
-        System.out.println("Lookup using binary search:\n result is \"" + resultBinary + "\", array sorting took " + Duration.between(startInstantBinarySorting, startInstantBinaryLookup).toNanos()
-                + " ns, lookup took " + Duration.between(startInstantBinaryLookup, finishInstantBinaryLookup).toNanos() + " ns.");
+        long finishNanoBinaryLookup = System.nanoTime();
+        double binarySortingTimeInSeconds = (startNanoBinaryLookup - startNanoBinarySorting) / 1e+9;
+        double binaryLookupTimeInSeconds = (finishNanoBinaryLookup - startNanoBinaryLookup) / 1e+9;
+        System.out.println("Lookup using binary search:\n result is \"" + resultBinary + "\", array sorting took "
+                + String.format("%.3f", binarySortingTimeInSeconds) + " s, lookup took " +String.format("%.3f", binaryLookupTimeInSeconds) + " s.");
 
     }
 

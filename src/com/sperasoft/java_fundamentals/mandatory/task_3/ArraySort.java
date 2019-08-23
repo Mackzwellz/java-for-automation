@@ -1,7 +1,5 @@
 package com.sperasoft.java_fundamentals.mandatory.task_3;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -24,10 +22,8 @@ public class ArraySort {
         int[] arrayOfRandomInts = new int[arraySize];
         fillArray(arrayOfRandomInts);
 
-        /* Clone, sort and measure */
         cloneAndBubbleOptSortArray(arrayOfRandomInts);
         cloneAndInsertSortArray(arrayOfRandomInts);
-        cloneAndDefaultSortArray(arrayOfRandomInts);
 
     }
 
@@ -48,51 +44,29 @@ public class ArraySort {
     }
 
     private static void cloneAndBubbleOptSortArray(int[] arrayOfRandomInts) {
+
         int[] arraySorted = arrayOfRandomInts.clone();
 
-        Instant startInstant = Instant.now();
-
+        long startTimer = System.nanoTime();
         doBubbleSort(arraySorted);
+        long finishTimer = System.nanoTime();
+        double sortingTimeInSeconds = ( finishTimer - startTimer ) / 1e+9;
 
-        Instant finishInstant = Instant.now();
         System.out.print("Sorted using BubbleOptSort. ");
-        System.out.print("Execution took "
-                + Duration.between(startInstant,
-                finishInstant).toNanos()
-                + " ns.\n");
+        System.out.print("Execution took " + String.format("%.3f", sortingTimeInSeconds) + " s.\n");
     }
 
     private static void cloneAndInsertSortArray(int[] arrayOfRandomInts) {
         int[] arraySorted = arrayOfRandomInts.clone();
 
-        Instant startInstant = Instant.now();
-
+        long startTimer = System.nanoTime();
         doInsertionSort(arraySorted);
+        long finishTimer = System.nanoTime();
+        double sortingTimeInSeconds = ( finishTimer - startTimer ) / 1e+9;
 
-        Instant finishInstant = Instant.now();
         System.out.print("Sorted using InsertSort. ");
-        System.out.print("Execution took "
-                + Duration.between(startInstant,
-                finishInstant).toNanos()
-                + " ns.\n");
+        System.out.print("Execution took " + String.format("%.3f", sortingTimeInSeconds) + " s.\n");
     }
-
-    private static void cloneAndDefaultSortArray(int[] arrayOfRandomInts) {
-        int[] arraySorted = arrayOfRandomInts.clone();
-
-        Instant startInstant = Instant.now();
-
-        Arrays.sort(arraySorted);
-
-        Instant finishInstant = Instant.now();
-
-        System.out.print("Sorted using Arrays.sort. ");
-        System.out.print("Execution took "
-                + Duration.between(startInstant,
-                finishInstant).toNanos()
-                + " ns.\n");
-    }
-
 
     /* http://www.java2novice.com/java-sorting-algorithms/insertion-sort/ */
     private static void doInsertionSort(int[] input) {
