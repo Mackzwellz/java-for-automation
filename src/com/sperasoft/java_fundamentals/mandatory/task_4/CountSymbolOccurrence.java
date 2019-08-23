@@ -15,12 +15,9 @@ public class CountSymbolOccurrence {
         System.out.println(stringToSearchIn);
         System.out.println("Input a symbol to search for in above text:");
 
-        /* Parse inputs:
-        /* https://www.javatpoint.com/java-string-to-char */
         Scanner scan = new Scanner(System.in);
         char symbolToSearchFor = scan.next().charAt(0);
         scan.close();
-
 
         findAndCountSymbolInString(stringToSearchIn, symbolToSearchFor);
     }
@@ -28,8 +25,6 @@ public class CountSymbolOccurrence {
     private static void findAndCountSymbolInString(String stringToSearchIn,
                                                    char symbolToSearchFor) {
         int numberOfOccurrences = 0;
-
-        /* https://way2java.com/string-and-stringbuffer/string-finding-matching-characters/ */
 
         for (int i = 0; i < stringToSearchIn.length(); i++) {
             if (stringToSearchIn.charAt(i) == symbolToSearchFor) {

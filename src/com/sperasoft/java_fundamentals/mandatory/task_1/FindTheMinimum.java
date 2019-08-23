@@ -1,10 +1,5 @@
 package com.sperasoft.java_fundamentals.mandatory.task_1;
 
-// Compile and use:
-// javac Practice1Minimum.java
-// java Practice1Minimum
-// Input: 123 1234 12 1
-
 import java.util.Scanner;
 
 public class FindTheMinimum {
@@ -39,11 +34,7 @@ public class FindTheMinimum {
 
     public static void main(String[] args) {
 
-        System.out.println("Input a sequence of 2, 3 or 4 numbers divided by whitespace:");
-
-        // Reading input from user. Console works only whe using "Terminal" in IDEA
-        // https://stackoverflow.com/questions/5287538/how-can-i-get-the-user-input-in-java
-        // https://www.geeksforgeeks.org/ways-to-read-input-from-console-in-java/
+        System.out.println("Input a sequence of 2, 3 or 4 numbers divided by whitespace (e.g. 123 1234 12 1):");
 
         Scanner scan = new Scanner(System.in);
         String inputString = scan.nextLine();
@@ -75,7 +66,7 @@ public class FindTheMinimum {
         }
 
         // Output the final result only if number of arguments is 2, 3 or 4
-        if ((parsedStringArray.length > 1) & (parsedStringArray.length < 5)) {
+        if ((parsedStringArray.length > 1) && (parsedStringArray.length < 5)) {
             System.out.print("Lowest of input numbers is " + result + ".\n");
         }
     }
