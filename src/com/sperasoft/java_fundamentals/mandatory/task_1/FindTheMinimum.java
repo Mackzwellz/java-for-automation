@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class FindTheMinimum {
 
+    //delet this
+    // static & private - figure out
+
     private static int findMinOf(int a, int b) {
         int lowestIntOf2;
         lowestIntOf2 = (a < b) ? a : b;
@@ -46,6 +49,8 @@ public class FindTheMinimum {
         for (int i = 0; i < splitStringArray.length; i++) {
             parsedStringArray[i] = Integer.parseInt(splitStringArray[i]);
         }
+
+        //take vars instead of array els
 
         int result = 0;
         switch (parsedStringArray.length) {

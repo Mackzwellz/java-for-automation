@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class ArraySearch {
 
+    // ask in console
     private static final int RNG_CEILING = 800000;
     private static final int RNG_OFFSET = 400000;
 
@@ -39,6 +40,9 @@ public class ArraySearch {
         long startNanoBinaryLookup = System.nanoTime();
         boolean resultBinary = findNumberInArrayBinary(arrayOfRandomIntsSorted, numberToSearchFor, 0, arrayOfRandomIntsSorted.length - 1);
         long finishNanoBinaryLookup = System.nanoTime();
+
+        // move constant to top or use TimeUnit (better)
+
         double binarySortingTimeInSeconds = (startNanoBinaryLookup - startNanoBinarySorting) / 1e+9;
         double binaryLookupTimeInSeconds = (finishNanoBinaryLookup - startNanoBinaryLookup) / 1e+9;
         System.out.println("Lookup using binary search:\n result is \"" + resultBinary + "\", array sorting took "
