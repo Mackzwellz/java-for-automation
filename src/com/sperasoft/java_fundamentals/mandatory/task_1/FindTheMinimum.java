@@ -4,35 +4,20 @@ import java.util.Scanner;
 
 public class FindTheMinimum {
 
-    //delet this
     // static & private - figure out
 
-    private static int findMinOf(int a, int b) {
-        int lowestIntOf2;
-        lowestIntOf2 = (a < b) ? a : b;
-        System.out.print("Lowest of " + a + " and " + b + " is " + lowestIntOf2
-                + ".\n");
-        return lowestIntOf2;
+    static int findMinOf(int a, int b) {
+        return (a < b) ? a : b;
     }
 
-    private static int findMinOf(int a, int b, int c) {
-        int lowestIntOf2;
-        int lowestIntOf3;
-        lowestIntOf2 = findMinOf(a, b);
-        lowestIntOf3 = (c < lowestIntOf2) ? c : lowestIntOf2;
-        System.out.print("Lowest of " + a + ", " + b + " and " + c + " is "
-                + lowestIntOf3 + ".\n");
-        return lowestIntOf3;
+    static int findMinOf(int a, int b, int c) {
+        int lowestIntOf2 = findMinOf(a, b);
+        return (c < lowestIntOf2) ? c : lowestIntOf2;
     }
 
-    private static int findMinOf(int a, int b, int c, int d) {
-        int lowestIntOf3;
-        int lowestIntOf4;
-        lowestIntOf3 = findMinOf(a, b, c);
-        lowestIntOf4 = (d < lowestIntOf3) ? d : lowestIntOf3;
-        System.out.print("Lowest of " + a + ", " + b + ", " + c + " and " + d
-                + " is " + lowestIntOf4 + ".\n");
-        return lowestIntOf4;
+    static int findMinOf(int a, int b, int c, int d) {
+        int lowestIntOf3 = findMinOf(a, b, c);
+        return (d < lowestIntOf3) ? d : lowestIntOf3;
     }
 
     public static void main(String[] args) {
@@ -41,7 +26,6 @@ public class FindTheMinimum {
 
         Scanner scan = new Scanner(System.in);
         String inputString = scan.nextLine();
-        scan.close();
 
         String[] splitStringArray = inputString.split(" ");
         int[] parsedStringArray = new int[splitStringArray.length];
@@ -50,23 +34,24 @@ public class FindTheMinimum {
             parsedStringArray[i] = Integer.parseInt(splitStringArray[i]);
         }
 
-        //take vars instead of array els
-
         int result = 0;
         switch (parsedStringArray.length) {
             case 2:
                 result = findMinOf(parsedStringArray[0], parsedStringArray[1]);
+                System.out.println("Lowest of " + parsedStringArray[0] + " and " + parsedStringArray[1] + " is " + result + ".");
                 break;
             case 3:
                 result = findMinOf(parsedStringArray[0], parsedStringArray[1],
                         parsedStringArray[2]);
+                System.out.println("Lowest of " + parsedStringArray[0] + ", " + parsedStringArray[1] + " and " + parsedStringArray[2] + " is " + result + ".");
                 break;
             case 4:
                 result = findMinOf(parsedStringArray[0], parsedStringArray[1],
                         parsedStringArray[2], parsedStringArray[3]);
+                System.out.println("Lowest of " + parsedStringArray[0] + ", " + parsedStringArray[1] + ", " + parsedStringArray[2] + " and " + parsedStringArray[3] + " is " + result + ".");
                 break;
             default:
-                System.out.print("Invalid argument count. Please input from 2 to 4 arguments.\n");
+                System.out.println("Invalid argument count. Please input from 2 to 4 arguments.");
                 break;
         }
 
