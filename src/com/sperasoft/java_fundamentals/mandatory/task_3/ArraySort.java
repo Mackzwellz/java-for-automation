@@ -6,18 +6,19 @@ import java.util.Scanner;
 
 public class ArraySort {
 
-    private static final int RNG_CEILING = 80000;
-    private static final int RNG_OFFSET = 40000;
+    private static int rngCeiling;
+    private static int rngOffset;
 
     /* Note: for some reason running this program from terminal produces finer results than using "Run" in IDE. */
 
     public static void main(String[] mainArgs) {
 
-        System.out.println("Input a number that will determine how many elements will be in array (e.g. 10000):");
+        System.out.println("Input a number that will determine how many elements will be in array, then ceiling and offset for RNG (e.g. 10000 80000 40000):");
 
         Scanner scan = new Scanner(System.in);
         int arraySize = scan.nextInt();
-        scan.close();
+        rngCeiling = scan.nextInt();
+        rngOffset = scan.nextInt();
 
         int[] arrayOfRandomInts = new int[arraySize];
         fillArray(arrayOfRandomInts);
@@ -32,7 +33,7 @@ public class ArraySort {
         Random randomGen = new Random();
         for (int i = 0; i < arrayToFill.length; i++) {
             /* restricting RNG */
-            arrayToFill[i] = randomGen.nextInt(RNG_CEILING) - RNG_OFFSET;
+            arrayToFill[i] = randomGen.nextInt( rngCeiling ) - rngOffset;
         }
     }
 
@@ -43,7 +44,7 @@ public class ArraySort {
         System.out.println(Arrays.toString(arrayToPrint));
     }
 
-    private static void cloneAndBubbleOptSortArray(int[] arrayOfRandomInts) {
+    public static void cloneAndBubbleOptSortArray(int[] arrayOfRandomInts) {
 
         int[] arraySorted = arrayOfRandomInts.clone();
 
@@ -56,7 +57,7 @@ public class ArraySort {
         System.out.print("Execution took " + String.format("%.3f", sortingTimeInSeconds) + " s.\n");
     }
 
-    private static void cloneAndInsertSortArray(int[] arrayOfRandomInts) {
+    public static void cloneAndInsertSortArray(int[] arrayOfRandomInts) {
         int[] arraySorted = arrayOfRandomInts.clone();
 
         long startTimer = System.nanoTime();

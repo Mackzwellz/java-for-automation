@@ -17,12 +17,11 @@ public class CountSymbolOccurrence {
 
         Scanner scan = new Scanner(System.in);
         char symbolToSearchFor = scan.next().charAt(0);
-        scan.close();
 
         findAndCountSymbolInString(stringToSearchIn, symbolToSearchFor);
     }
 
-    private static void findAndCountSymbolInString(String stringToSearchIn,
+    public static void findAndCountSymbolInString(String stringToSearchIn,
                                                    char symbolToSearchFor) {
         int numberOfOccurrences = 0;
 

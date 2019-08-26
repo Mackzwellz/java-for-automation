@@ -6,21 +6,23 @@ import java.util.Scanner;
 
 public class ArraySearch {
 
-    // ask in console
-    private static final int RNG_CEILING = 800000;
-    private static final int RNG_OFFSET = 400000;
+    private static final double ONE_BILLION = 1e+9; // = 1_000_000_000 = 10^9
+    private static int rngCeiling;
+    private static int rngOffset;
 
     /* Note: for some reason, running this program from terminal produces finer results than using "Run" in IDE. */
 
     public static void main(String[] mainArgs) {
 
-        System.out.println("Input a sequence of 2 numbers, divided by whitespace (e.g. 1000000 399999).");
-        System.out.println("First determines array size, second is the number to search for in array:");
+        System.out.println("Input a sequence of 4 numbers, divided by whitespace.");
+        System.out.println("First determines array size, second is the number to search for in array.");
+        System.out.println("3 and 4 are ceiling and offset for RNG (e.g. 100000000 3999999 8000000 4000000):");
 
         Scanner scan = new Scanner(System.in);
         int arraySize = scan.nextInt();
         int numberToSearchFor = scan.nextInt();
-        scan.close();
+        rngCeiling = scan.nextInt();
+        rngOffset = scan.nextInt();
 
         int[] arrayOfRandomInts = new int[arraySize];
         fillArray(arrayOfRandomInts);
@@ -29,7 +31,7 @@ public class ArraySearch {
         long startNanoRegular = System.nanoTime();
         boolean resultRegular = findNumberInArrayRegular(arrayOfRandomInts, numberToSearchFor);
         long finishNanoRegular = System.nanoTime();
-        double regularSortingTimeInSeconds = (finishNanoRegular - startNanoRegular) / 1e+9;
+        double regularSortingTimeInSeconds = (finishNanoRegular - startNanoRegular) / ONE_BILLION;
         System.out.println("Lookup for int in array using \"for\" loop:\n result is \"" + resultRegular + "\", execution took " + String.format("%.3f", regularSortingTimeInSeconds) + " s.");
 
         /* Clone initial array (to have clear results), then sort (to be able use binary search) */
@@ -41,11 +43,9 @@ public class ArraySearch {
         boolean resultBinary = findNumberInArrayBinary(arrayOfRandomIntsSorted, numberToSearchFor, 0, arrayOfRandomIntsSorted.length - 1);
         long finishNanoBinaryLookup = System.nanoTime();
 
-        // move constant to top or use TimeUnit (better)
-
-        double binarySortingTimeInSeconds = (startNanoBinaryLookup - startNanoBinarySorting) / 1e+9;
-        double binaryLookupTimeInSeconds = (finishNanoBinaryLookup - startNanoBinaryLookup) / 1e+9;
-        System.out.println("Lookup using binary search:\n result is \"" + resultBinary + "\", array sorting took "
+        double binarySortingTimeInSeconds = (startNanoBinaryLookup - startNanoBinarySorting) / ONE_BILLION;
+        double binaryLookupTimeInSeconds = (finishNanoBinaryLookup - startNanoBinaryLookup) / ONE_BILLION;
+        System.out.println("Lookup using binary search:\n result is \"" + resultBinary + "\", array cloning and sorting took "
                 + String.format("%.3f", binarySortingTimeInSeconds) + " s, lookup took " + String.format("%.3f", binaryLookupTimeInSeconds) + " s.");
 
     }
@@ -55,7 +55,7 @@ public class ArraySearch {
         Random randomGen = new Random();
         for (int i = 0; i < arrayToFill.length; i++) {
             /* restricting RNG */
-            arrayToFill[i] = randomGen.nextInt(RNG_CEILING) - RNG_OFFSET;
+            arrayToFill[i] = randomGen.nextInt(rngCeiling) - rngOffset;
         }
     }
 
@@ -66,7 +66,7 @@ public class ArraySearch {
 
     }
 
-    private static boolean findNumberInArrayRegular(int[] arrayToSearchIn,
+    public static boolean findNumberInArrayRegular(int[] arrayToSearchIn,
                                                     int numberToSearchFor) {
         boolean isNumberInArray = false;
 
@@ -80,7 +80,7 @@ public class ArraySearch {
         return isNumberInArray;
     }
 
-    private static boolean findNumberInArrayBinary(int[] sortedArray, int key, int low, int high) {
+    public static boolean findNumberInArrayBinary(int[] sortedArray, int key, int low, int high) {
 
         boolean isNumberInArray = false;
 
@@ -99,7 +99,7 @@ public class ArraySearch {
         return isNumberInArray;
     }
 
-    private static int[] cloneAndSortArray(int[] arrayToSort) {
+    public static int[] cloneAndSortArray(int[] arrayToSort) {
 
         int[] arraySorted = arrayToSort.clone();
         MyQuickSort.sortQ(arraySorted);
@@ -111,7 +111,7 @@ public class ArraySearch {
 
         private static int[] array;
 
-        static void sortQ(int[] inputArr) {
+        public static void sortQ(int[] inputArr) {
 
             if (inputArr == null || inputArr.length == 0) {
                 return;

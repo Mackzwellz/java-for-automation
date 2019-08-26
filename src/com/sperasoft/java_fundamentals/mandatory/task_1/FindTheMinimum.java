@@ -4,18 +4,16 @@ import java.util.Scanner;
 
 public class FindTheMinimum {
 
-    // static & private - figure out
-
-    static int findMinOf(int a, int b) {
+    public static int findMinOf(int a, int b) {
         return (a < b) ? a : b;
     }
 
-    static int findMinOf(int a, int b, int c) {
+    public static int findMinOf(int a, int b, int c) {
         int lowestIntOf2 = findMinOf(a, b);
         return (c < lowestIntOf2) ? c : lowestIntOf2;
     }
 
-    static int findMinOf(int a, int b, int c, int d) {
+    public static int findMinOf(int a, int b, int c, int d) {
         int lowestIntOf3 = findMinOf(a, b, c);
         return (d < lowestIntOf3) ? d : lowestIntOf3;
     }
