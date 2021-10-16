@@ -1,0 +1,285 @@
+import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.Callable;
+
+public class Practice3ArraySort {
+
+
+    /* Constants to be used for RNG in fillArray() method
+    https://stackoverflow.com/questions/66066/what-is-the-best-way-to-implement-constants-in-java
+     */
+    private static final int RNG_CEILING = 80000;
+    private static final int RNG_OFFSET = 40000;
+
+    /* Time measurement:
+    https://stackoverflow.com/questions/1712205/current-time-in-microseconds-in-java
+    https://www.baeldung.com/java-measure-elapsed-time
+    https://howtodoinjava.com/java/date-time/execution-elapsed-time/
+    https://www.techiedelight.com/measure-elapsed-time-execution-time-java/
+     */
+    static int[] arrayOfRandomInts;
+    static int[] arraySortedTim;
+
+
+    public static void main( String[] mainArgs ) throws InvocationTargetException, IllegalAccessException {
+        /* Compile and use:
+        javac Practice2ArraySearch.java
+        java Practice2ArraySearch 100000 39999 (~50/50 true/false, noticeable nanoseconds difference)
+        change CEILING and OFFSET above if you need to test different values
+        */
+        // https://www.geeksforgeeks.org/ways-to-read-input-from-console-in-java/
+        System.out.println( "Input a number that will determine how many elements will be in array:" );
+
+        /* Parse inputs */
+        int arraySize = Integer.parseInt( System.console().readLine() );
+
+        /* Create and fill an array based on input size */
+
+        arrayOfRandomInts = new int[arraySize];
+        fillArray( arrayOfRandomInts );
+
+        System.out.println( "Initial array:" );
+        printArray( arrayOfRandomInts );
+        System.out.println( "==============" );
+
+
+        // Initial trials
+        //stopwatchMethod( cloneAndTimSortArray() );
+        stopwatchMethod( cloneAndDefaultSortArray() );
+        //stopwatchMethod( cloneAndDefaultSortArray(), arrayOfRandomInts);
+        //stopwatchMethod( this::cloneAndTimSortArray, arrayOfRandomInts);
+
+       // Long form with callable
+       /* stopwatchMethodBackup(new Callable<int[]>() {
+            public int[] call() {
+                return cloneAndTimSortArray(arrayOfRandomInts); }
+        }, arrayOfRandomInts);
+                */
+
+       // Short form
+       //stopwatchMethodBackupCallable(Callable<int[]>) () -> cloneAndTimSortArray(arrayOfRandomInts), arrayOfRandomInts);
+
+       // Shortest form, requires interface?
+       //stopwatchMethodBackup(() -> cloneAndTimSortArray(arrayOfRandomInts), arrayOfRandomInts);
+
+    }
+
+    private static int[] fillArray( int[] arrayToFill ) {
+
+        Random randomGen = new Random();
+        for ( int i = 0; i < arrayToFill.length; i++ ) {
+            /* restricting RNG */
+            arrayToFill[i] = randomGen.nextInt( RNG_CEILING ) - RNG_OFFSET;
+        }
+        /* return statement is not used, maybe it should be removed along with method type? int[] -> void */
+        return arrayToFill;
+    }
+
+    private static void printArray( int[] arrayToPrint ) {
+
+        System.out.println( "Printing array of " + arrayToPrint.length
+                + " elements:" );
+        System.out.println( Arrays.toString( arrayToPrint ) );
+        /* for ( int i = 0; i < arrayToPrint.length; i++ ) {
+            System.out.println( "Element " + i + " : " + arrayToPrint[i] );
+                    */
+    }
+
+    /* Sorting algorithms reference:
+    http://www.algomation.com/algorithm/bubble-sort-optimized - live graph of sort iterations
+    http://www.algomation.com/player?algorithm=545ebe9d01f03a02007b1019 (insertion sort)
+
+    https://www.geeksforgeeks.org/sorting-algorithms/ - lots of links and info
+    http://www.java2novice.com/java-sorting-algorithms/
+    https://brilliant.org/wiki/sorting-algorithms/ - great site
+    https://www.javatpoint.com/sorting-algorithms
+    https://java2blog.com/sorting-algorithms-java/
+     */
+
+    void cloneAndBubbleOptSortArray() {
+        int[] arraySorted = arrayOfRandomInts.clone();
+        Arrays.sort( arraySorted );
+    }
+    void cloneAndInsertSortArray() {
+        int[] arraySorted = arrayOfRandomInts.clone();
+        Arrays.sort( arraySorted );
+    }
+    static Callable<Void> cloneAndDefaultSortArray() {
+        int[] arraySortedDefault = arrayOfRandomInts.clone();
+        Arrays.sort( arraySortedDefault );
+        printArray( arraySortedDefault );
+        System.out.println( "Sorted using " + MethodNameReceiver.methodName() );
+        return null;
+    }
+    public static Callable<Void> cloneAndTimSortArray() {
+        arraySortedTim = arrayOfRandomInts.clone();
+        TimSortImpl.timSort( arraySortedTim, arraySortedTim.length );
+        printArray( arraySortedTim );
+        return null;
+    }
+
+    /* https://stackoverflow.com/questions/6061049/can-i-pass-a-method-as-parameter-of-another-method-in-java
+     * Object measuredMethodArgumentArray -> int[] measuredMethodArgumentArray
+     */
+    static void stopwatchMethod(Callable<Void> measuredMethod) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
+        Instant startInstant = Instant.now();
+        try {
+            measuredMethod.call();
+        } catch (Exception e){
+            System.out.println( "Error upon trying:" );
+            e.printStackTrace();
+        }
+        Instant finishInstant = Instant.now();
+        System.out.println( "Execution took " + Duration.between( startInstant, finishInstant ).toNanos() + " ns." );
+    }
+
+    /*
+    static void stopwatchMethodBackupCallable(Callable<int[]> measuredMethod, Object measuredMethodArgumentArray) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
+        Instant startInstant = Instant.now();
+        try {
+            //measuredMethod(measuredMethodArgumentArray);
+        } catch (Exception e){
+            System.out.println( "Error upon trying" + e );
+        }
+        Instant finishInstant = Instant.now();
+        System.out.println( "Sorted using " + MethodNameReceiver.methodName() + "\", execution took " + Duration.between( startInstant, finishInstant ).toNanos() + " ns." );
+    }
+
+    static void stopwatchMethodBackupInvoke(Object measuredMethodArgumentArray, int[] measuredMethod) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
+        Instant startInstant = Instant.now();
+        try {
+            //measuredMethod.invoke(measuredMethodArgumentArray);
+        } finally {        }
+        Instant finishInstant = Instant.now();
+
+        System.out.println( "CLIENT_CODE_STACK_INDEX = " + MethodNameReceiver.CLIENT_CODE_STACK_INDEX );
+        System.out.println( "Sorted using " + MethodNameReceiver.methodName() + "\", execution took " + Duration.between( startInstant, finishInstant ).toNanos() + " ns." );
+    }
+
+     */
+
+}
+
+/* Receiving Name of Class Used
+https://stackoverflow.com/questions/442747/getting-the-name-of-the-currently-executing-method/8592871#8592871 */
+class MethodNameReceiver {
+    public static final int CLIENT_CODE_STACK_INDEX;
+
+    static {
+        // Finds out the index of "this code" in the returned stack trace - funny but it differs in JDK 1.5 and 1.6
+        int i = 0;
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            i++;
+            if (ste.getClassName().equals( MethodNameReceiver.class.getName() ) ) {
+                break;
+            }
+        }
+        CLIENT_CODE_STACK_INDEX = i;
+    }
+
+    public static String methodName() {
+        return Thread.currentThread().getStackTrace()[CLIENT_CODE_STACK_INDEX].getMethodName();
+    }
+}
+
+// https://www.geeksforgeeks.org/timsort/
+class TimSortImpl {
+
+    static int RUN = 32;
+
+    // this function sorts array from left index to
+    // to right index which is of size atmost RUN
+    public static void insertionSort(int[] arr, int left, int right) {
+        for (int i = left + 1; i <= right; i++) {
+            int temp = arr[i];
+            int j = i - 1;
+            while (arr[j] > temp && j >= left) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = temp;
+        }
+    }
+
+    // merge function merges the sorted runs
+    public static void merge(int[] arr, int l,
+                             int m, int r) {
+        // original array is broken in two parts
+        // left and right array
+        int len1 = m - l + 1;
+        int len2 = r - m;
+        int[] left = new int[len1];
+        int[] right = new int[len2];
+        for (int x = 0; x < len1; x++) {
+            left[x] = arr[l + x];
+        }
+        for (int x = 0; x < len2; x++) {
+            right[x] = arr[m + 1 + x];
+        }
+
+        int i = 0;
+        int j = 0;
+        int k = l;
+
+        // after comparing, we merge those two array
+        // in larger sub array
+        while (i < len1 && j < len2) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i++;
+            } else {
+                arr[k] = right[j];
+                j++;
+            }
+            k++;
+        }
+
+        // copy remaining elements of left, if any
+        while (i < len1) {
+            arr[k] = left[i];
+            k++;
+            i++;
+        }
+
+        // copy remaining element of right, if any
+        while (j < len2) {
+            arr[k] = right[j];
+            k++;
+            j++;
+        }
+    }
+
+    // iterative Timsort function to sort the
+    // array[0...n-1] (similar to merge sort)
+    public static void timSort( int[] arr, int n ) {
+
+        // Sort individual subarrays of size RUN
+        for (int i = 0; i < n; i += RUN) {
+            insertionSort( arr, i, Math.min( (i + 31), (n - 1) ) );
+        }
+
+        // start merging from size RUN (or 32). It will merge
+        // to form size 64, then 128, 256 and so on ....
+        for (int size = RUN; size < n; size = 2 * size) {
+
+            // pick starting point of left sub array. We
+            // are going to merge arr[left..left+size-1]
+            // and arr[left+size, left+2*size-1]
+            // After every merge, we increase left by 2*size
+            for (int left = 0; left < n; left += 2 * size) {
+
+                // find ending point of left sub array
+                // mid+1 is starting point of right sub array
+                int mid = left + size - 1;
+                int right = Math.min( (left + 2 * size - 1), (n - 1) );
+
+                // merge sub array arr[left.....mid] &
+                // arr[mid+1....right]
+                merge( arr, left, mid, right );
+            }
+        }
+    }
+}
