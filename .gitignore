@@ -1,5 +1,5 @@
 # Intellij IDEA config files
-.idea/*
+.idea
 *.iml
 
 # Output dir
