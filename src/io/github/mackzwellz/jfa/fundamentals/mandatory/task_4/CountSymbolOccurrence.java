@@ -1,4 +1,4 @@
-package com.sperasoft.java_fundamentals.mandatory.task_4;
+package io.github.mackzwellz.jfa.fundamentals.mandatory.task_4;
 
 import java.util.Scanner;
 

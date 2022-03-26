@@ -1,4 +1,4 @@
-package com.sperasoft.java_fundamentals.mandatory.task_2;
+package io.github.mackzwellz.jfa.fundamentals.mandatory.task_2;
 
 import java.util.Arrays; // used only in printArray()
 import java.util.Random;
