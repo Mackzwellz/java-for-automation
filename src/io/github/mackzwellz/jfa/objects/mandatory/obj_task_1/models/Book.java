@@ -41,6 +41,6 @@ public class Book {
 
     //other methods
     public void printBookDetails() {
-        System.out.printf("Book details: title='%s', author='%s', price='%s'%n", title, author.getAuthorFullName(), price);
+        System.out.printf("Book details: title='%s', author='%s', price='%s'%n", title, author, price);
     }
 }

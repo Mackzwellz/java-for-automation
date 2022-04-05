@@ -30,13 +30,13 @@ public class Author {
 //    }
 
     //other methods
-    public String getAuthorFullName() {
+    @Override
+    public String toString() {
         return firstName + " " + lastName;
     }
 
     public void printAuthorFullName() {
-        System.out.printf("Author's full name: %s %s%n", firstName, lastName);
+        System.out.println("Author's full name: " + this);
     }
 
 }
-
