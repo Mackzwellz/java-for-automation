@@ -5,9 +5,9 @@ public class Clock {
     private final int MINUTES_IN_ONE_HOUR = 60;
     private final int SECONDS_IN_ONE_MINUTE = 60;
     private final int HOURS_IN_ONE_DAY = 24;
-    private int hours; //todo (range 0 - 23)
-    private int minutes; //todo (range 0 - 59)
-    private int seconds; //todo (range 0 - 59)
+    private int hours;
+    private int minutes;
+    private int seconds;
 
     public Clock() {
         this.hours = 12;
@@ -16,14 +16,8 @@ public class Clock {
     }
 
     public Clock(int hours, int minutes, int seconds) {
-        if (hours < 0 || minutes < 0 || seconds < 0 ||
-                hours >= HOURS_IN_ONE_DAY || minutes >= MINUTES_IN_ONE_HOUR || seconds >= SECONDS_IN_ONE_MINUTE) {
-            throw new IllegalArgumentException();
-        } else {
-            this.hours = hours;
-            this.minutes = minutes;
-            this.seconds = seconds;
-        }
+        clockInputValidator(hours, minutes, seconds);
+        setClock(convertClockToSeconds(hours, minutes, seconds));
     }
 
     public Clock(int secondsSinceMidnight) {
@@ -31,18 +25,54 @@ public class Clock {
     }
 
     public void setClock(int secondsSinceMidnight) {
-        int hoursFromInput = Math.floorDiv(secondsSinceMidnight, (MINUTES_IN_ONE_HOUR * SECONDS_IN_ONE_MINUTE));
-        int minutesFromInput = Math.floorDiv(secondsSinceMidnight, SECONDS_IN_ONE_MINUTE) - (hoursFromInput * MINUTES_IN_ONE_HOUR);
+        int initialHoursFromInput = Math.floorDiv(secondsSinceMidnight, (MINUTES_IN_ONE_HOUR * SECONDS_IN_ONE_MINUTE));
+        int actualHoursFromInput = initialHoursFromInput;
+
+        if (initialHoursFromInput >= HOURS_IN_ONE_DAY) {
+            int wholeDays = Math.floorDiv(initialHoursFromInput, HOURS_IN_ONE_DAY);
+            System.out.printf("Subtracting %s whole days from clock%n", wholeDays);
+            actualHoursFromInput = initialHoursFromInput - (wholeDays * HOURS_IN_ONE_DAY);
+        }
+
+        int minutesFromInput = Math.floorDiv(secondsSinceMidnight, SECONDS_IN_ONE_MINUTE) - (initialHoursFromInput * MINUTES_IN_ONE_HOUR);
         int secondsFromInput = secondsSinceMidnight -
-                (hoursFromInput * MINUTES_IN_ONE_HOUR * SECONDS_IN_ONE_MINUTE) -
+                (initialHoursFromInput * MINUTES_IN_ONE_HOUR * SECONDS_IN_ONE_MINUTE) -
                 (minutesFromInput * SECONDS_IN_ONE_MINUTE);
-        System.out.printf("Set Clock from %s secondsSinceMidnight: %s hours, %s min, %s s%n", secondsSinceMidnight, hoursFromInput, minutesFromInput, secondsFromInput);
-        this.hours = hoursFromInput;
+        System.out.printf("Set Clock from %s secondsSinceMidnight: %s hours, %s min, %s s%n",
+                secondsSinceMidnight, actualHoursFromInput, minutesFromInput, secondsFromInput);
+
+        clockInputValidator(actualHoursFromInput, minutesFromInput, secondsFromInput);
+
+        this.hours = actualHoursFromInput;
         this.minutes = minutesFromInput;
         this.seconds = secondsFromInput;
     }
 
-    //todo convert to enum
+    private void clockInputValidator(int hours, int minutes, int seconds) {
+        if (hours < 0 || hours >= HOURS_IN_ONE_DAY) {
+            throw new IllegalArgumentException("Clock hours are out of expected bounds");
+        }
+        if (minutes < 0 || minutes >= MINUTES_IN_ONE_HOUR) {
+            throw new IllegalArgumentException("Clock minutes are out of expected bounds");
+        }
+        if (seconds < 0 || seconds >= SECONDS_IN_ONE_MINUTE) {
+            throw new IllegalArgumentException("Clock seconds are out of expected bounds");
+        }
+    }
+
+    private int convertClockToSeconds(int hours, int minutes, int seconds) {
+        int hoursSinceMidnight = Math.multiplyExact(hours, (MINUTES_IN_ONE_HOUR * SECONDS_IN_ONE_MINUTE));
+        int minutesSinceMidnight = Math.multiplyExact(minutes, SECONDS_IN_ONE_MINUTE);
+        int secondsSinceMidnight = seconds + minutesSinceMidnight + hoursSinceMidnight;
+        System.out.printf("Derived %s secondsSinceMidnight from Clock: %s hours, %s min, %s s%n",
+                secondsSinceMidnight, hours, minutes, seconds);
+        return secondsSinceMidnight;
+    }
+
+    private int convertClockToSeconds(Clock clock) {
+        return convertClockToSeconds(clock.hours, clock.minutes, clock.seconds);
+    }
+
     public void tick() {
         if (seconds + 1 >= SECONDS_IN_ONE_MINUTE && minutes + 1 >= MINUTES_IN_ONE_HOUR && hours + 1 >= HOURS_IN_ONE_DAY) {
             System.out.println("Started a new day!");
@@ -62,7 +92,7 @@ public class Clock {
     }
 
     public void tickDown() {
-        if (seconds - 1 < 0 && minutes - 1 < 0 && (hours - 1 < 0 || hours > 23)) {
+        if (seconds - 1 < 0 && minutes - 1 < 0 && (hours - 1 < 0 || hours >= MINUTES_IN_ONE_HOUR)) {
             System.out.println("Ticked down to previous day!");
             hours = 23;
             minutes = 59;
@@ -79,20 +109,16 @@ public class Clock {
         }
     }
 
-    //todo handle h-t-m and m-t-s
     public void addClock(Clock clockToAdd) {
-        this.hours += clockToAdd.hours;
-        this.minutes += clockToAdd.minutes;
-        this.seconds += clockToAdd.seconds;
+        int thisClock = convertClockToSeconds(this);
+        int thatClock = convertClockToSeconds(clockToAdd);
+        setClock(Math.abs(thisClock + thatClock));
     }
 
-    //todo handle h-t-m and m-t-s
     public Clock subtractClock(Clock clockToSubtract) {
-        return new Clock(
-                this.hours - clockToSubtract.hours,
-                this.minutes - clockToSubtract.minutes,
-                this.seconds - clockToSubtract.seconds
-        );
+        int thisClock = convertClockToSeconds(this);
+        int thatClock = convertClockToSeconds(clockToSubtract);
+        return new Clock(Math.abs(thisClock - thatClock));
     }
 
     @Override
@@ -101,9 +127,8 @@ public class Clock {
                 handlePrecedingZero(this.hours), handlePrecedingZero(this.minutes), handlePrecedingZero(this.seconds));
     }
 
-    // number > 9 works too i guess
     public String handlePrecedingZero(int number) {
-        return String.valueOf(number).length() > 1 ? String.valueOf(number) : "0" + number;
+        return number > 9 ? String.valueOf(number) : "0" + number;
     }
 
     public void logCurrentTime() {
