@@ -1,7 +1,7 @@
-package io.github.mackzwellz.jfa.objects.mandatory.obj_task_1;
+package io.github.mackzwellz.jfa.b_objects.mandatory.obj_task_1;
 
-import io.github.mackzwellz.jfa.objects.mandatory.obj_task_1.models.Author;
-import io.github.mackzwellz.jfa.objects.mandatory.obj_task_1.models.Book;
+import io.github.mackzwellz.jfa.b_objects.mandatory.obj_task_1.models.Author;
+import io.github.mackzwellz.jfa.b_objects.mandatory.obj_task_1.models.Book;
 
 public class BookDemo {
 
