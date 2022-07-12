@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.fundamentals.mandatory.task_2;
+package io.github.mackzwellz.jfa.a_fundamentals.mandatory.task_2;
 
 import java.util.Arrays; // used only in printArray()
 import java.util.Random;
@@ -34,7 +34,7 @@ public class ArraySearch {
         double regularSortingTimeInSeconds = (finishNanoRegular - startNanoRegular) / ONE_BILLION;
         System.out.println("Lookup for int in array using \"for\" loop:\n result is \"" + resultRegular + "\", execution took " + String.format("%.3f", regularSortingTimeInSeconds) + " s.");
 
-        /* Clone initial array (to have clear results), then sort (to be able use binary search) */
+        /* Clone initial array (to have clear results), then sort (to be able to use binary search) */
         long startNanoBinarySorting = System.nanoTime();
         int[] arrayOfRandomIntsSorted = cloneAndSortArray(arrayOfRandomInts);
 

@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.objects.mandatory.obj_task_1.models;
+package io.github.mackzwellz.jfa.b_objects.mandatory.obj_task_1.models;
 
 public class Author {
 

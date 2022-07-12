@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.fundamentals.mandatory.task_4;
+package io.github.mackzwellz.jfa.a_fundamentals.mandatory.task_4;
 
 import java.util.Scanner;
 

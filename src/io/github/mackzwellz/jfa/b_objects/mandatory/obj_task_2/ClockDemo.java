@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.objects.mandatory.obj_task_2;
+package io.github.mackzwellz.jfa.b_objects.mandatory.obj_task_2;
 
 import java.util.Scanner;
 
