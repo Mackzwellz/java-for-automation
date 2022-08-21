@@ -27,11 +27,11 @@ public class Circle {
 
   @Override
   public String toString() {
-    return "Circle{" + "radius=" + radius + ", color='" + color + '\'' + '}';
+    return "Circle{" + "radius=" + this.radius + ", color='" + this.color + "'}";
   }
 
   public double getRadius() {
-    return radius;
+    return this.radius;
   }
 
   public void setRadius(int radius) {
@@ -39,7 +39,7 @@ public class Circle {
   }
 
   public String getColor() {
-    return color;
+    return this.color;
   }
 
   public void setColor(String color) {

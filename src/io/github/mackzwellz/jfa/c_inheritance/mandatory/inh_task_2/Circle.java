@@ -24,11 +24,11 @@ public class Circle extends Shape {
 
   @Override
   public String toString() {
-    return "Circle{" + "radius=" + radius + "} based on " + super.toString();
+    return "Circle{" + "radius=" + this.radius + "} based on " + super.toString();
   }
 
   public double getRadius() {
-    return radius;
+    return this.radius;
   }
 
   public void setRadius(int radius) {

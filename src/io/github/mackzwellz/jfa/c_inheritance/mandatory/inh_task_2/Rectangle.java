@@ -22,7 +22,7 @@ public class Rectangle extends Shape {
   }
 
   public double getWidth() {
-    return width;
+    return this.width;
   }
 
   public void setWidth(double width) {
@@ -30,7 +30,7 @@ public class Rectangle extends Shape {
   }
 
   public double getLength() {
-    return length;
+    return this.length;
   }
 
   public void setLength(double length) {
@@ -38,14 +38,14 @@ public class Rectangle extends Shape {
   }
 
   public double getPerimeter() {
-    return width * length;
+    return 2 * (this.width + this.length);
   }
 
   @Override
   public String toString() {
     return "Rectangle{" +
-        "width=" + width +
-        ",length=" + length +
+        "width=" + this.width +
+        ",length=" + this.length +
         "} based on " + super.toString();
   }
 

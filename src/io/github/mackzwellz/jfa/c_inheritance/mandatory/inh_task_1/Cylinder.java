@@ -23,7 +23,7 @@ public class Cylinder extends Circle {
   }
 
   public double getHeight() {
-    return height;
+    return this.height;
   }
 
   public void setHeight(double height) {
@@ -33,12 +33,12 @@ public class Cylinder extends Circle {
   @Override
   public String toString() {
     return "Cylinder{" +
-        "height=" + height +
+        "height=" + this.height +
         "} based on " + super.toString();
   }
 
   public double getArea() {
-    return 2 * Math.PI * this.getRadius() * height + 2 * super.getArea(); //2πrh+2πr^2
+    return 2 * Math.PI * this.getRadius() * this.height + 2 * super.getArea(); //2πrh+2πr^2
   }
 
   public double getVolume() {
