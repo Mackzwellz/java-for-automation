@@ -1,7 +1,7 @@
-package io.github.mackzwellz.jfa.c_inheritance.mandatory.inh_task_2;
+package io.github.mackzwellz.jfa.d_abstract_interfaces.mandatory.abs_task1;
 
 
-public class Shape {
+public abstract class Shape {
 
   protected static String DEFAULT_COLOR = "green";
   protected static boolean DEFAULT_FILLED = true;
@@ -32,6 +32,12 @@ public class Shape {
   public void setFilled(boolean filled) {
     this.filled = filled;
   }
+
+  public abstract double getArea();
+
+  public abstract double getPerimeter();
+
+  public abstract boolean isInside(double x, double y);
 
   @Override
   public String toString() {

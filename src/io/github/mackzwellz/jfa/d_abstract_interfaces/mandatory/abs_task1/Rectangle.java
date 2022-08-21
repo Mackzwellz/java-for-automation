@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.c_inheritance.mandatory.inh_task_2;
+package io.github.mackzwellz.jfa.d_abstract_interfaces.mandatory.abs_task1;
 
 public class Rectangle extends Shape {
 
@@ -29,9 +29,7 @@ public class Rectangle extends Shape {
     this.width = width;
   }
 
-  public double getLength() {
-    return this.length;
-  }
+  public double getLength() { return this.length; }
 
   public void setLength(double length) {
     this.length = length;
@@ -39,6 +37,16 @@ public class Rectangle extends Shape {
 
   public double getPerimeter() {
     return 2 * (this.width + this.length);
+  }
+
+  @Override
+  public double getArea() {
+    return this.width * this.length;
+  }
+
+  @Override
+  public boolean isInside(double x, double y) {
+    return (x < this.width/2 && x > -this.width/2) && (y < this.length/2 && y > -this.length/2);
   }
 
   @Override

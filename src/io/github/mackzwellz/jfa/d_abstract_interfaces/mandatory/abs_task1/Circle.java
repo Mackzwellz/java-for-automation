@@ -1,4 +1,4 @@
-package io.github.mackzwellz.jfa.c_inheritance.mandatory.inh_task_2;
+package io.github.mackzwellz.jfa.d_abstract_interfaces.mandatory.abs_task1;
 
 public class Circle extends Shape {
 
@@ -20,6 +20,16 @@ public class Circle extends Shape {
 
   public double getArea() {
     return Math.pow(this.radius, 2) * Math.PI; // πr^2
+  }
+
+  @Override
+  public double getPerimeter() {
+    return 2 * Math.PI * this.radius;  // 2πr
+  }
+
+  @Override
+  public boolean isInside(double x, double y) {
+    return Math.pow(y, 2) + Math.pow(y, 2) < Math.pow(this.radius, 2); //  (x - center_x = 0)² + (y - center_y = 0)² < radius²
   }
 
   @Override
